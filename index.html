@@ -34,7 +34,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif; /* Использование Poppins */
+            font-family: 'Poppins', sans-serif; 
             transition: all var(--transition-speed) ease;
             -webkit-text-size-adjust: none;
             -moz-text-size-adjust: none;
@@ -49,9 +49,9 @@
         }
         
         body {
-            background-color: var(--black); /* Убедимся, что фон тела тоже черный */
+            background-color: var(--black); 
             color: var(--text);
-            line-height: 1.7; /* Улучшенная читаемость */
+            line-height: 1.7; 
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -193,8 +193,8 @@
             border: 2px solid var(--border-bright); /* Обновлено */
             box-shadow: 0 6px 16px var(--shadow); /* Увеличенная тень */
             border-radius: 8px; /* Немного больше скругление */
-            padding: 2.5rem; /* Увеличенный padding */
-            margin-bottom: 2.5rem; /* Увеличенный margin */
+            padding: 2.5rem; 
+            margin-bottom: 2.5rem; 
             animation: fadeIn 0.6s ease-out; /* Более плавное появление */
         }
         
@@ -211,7 +211,7 @@
         
         h1, h2, h3, h4 {
             color: var(--text-light);
-            margin-bottom: 1.5rem; /* Увеличенный margin */
+            margin-bottom: 1.5rem; 
             font-weight: 700; /* Более жирный шрифт */
         }
         
@@ -223,9 +223,9 @@
         
         h2 {
             font-size: 2.2rem; /* Увеличенный размер */
-            padding-bottom: 0.8rem; /* Увеличенный padding */
+            padding-bottom: 0.8rem; 
             border-bottom: 2px solid var(--border); /* Увеличенная толщина границы */
-            margin-bottom: 1.8rem; /* Увеличенный margin */
+            margin-bottom: 1.8rem; 
             text-align: center; /* Центрирование */
         }
         
@@ -250,9 +250,9 @@
         }
 
         h3::after {
-            content: ''; /* Убран знак '+' */
+            content: ''; 
             position: absolute;
-            right: 1.5rem; /* Отступ для иконки */
+            right: 1.5rem; 
             top: 50%;
             transform: translateY(-50%);
             font-size: 2rem; /* Увеличен размер иконки */
@@ -261,17 +261,17 @@
         }
 
         h3.active::after {
-            content: ''; /* Убран знак '-' */
+            content: ''; 
             transform: translateY(-50%) rotate(0deg); /* Без поворота */
         }
 
-        /* New styles for important buttons */
+        
         h3.important-button {
             background-color: var(--accent); /* Акцентный цвет для важных кнопок */
             border: 2px solid var(--accent-hover); /* Более темный акцент для границы */
             color: var(--black); /* Темный текст на акцентном фоне */
             font-weight: 700; /* Более жирный шрифт */
-            padding: 1.2rem 2rem; /* Увеличенный padding */
+            padding: 1.2rem 2rem; 
             box-shadow: 0 6px 16px var(--shadow); /* Более выраженная тень */
             margin: 2.5rem 0; /* Увеличенные отступы */
             border-radius: 10px; /* Больше скругление */
@@ -316,8 +316,8 @@
             background: var(--gray); /* Обновлено */
             border: 2px solid var(--border-bright); /* Обновлено */
             box-shadow: 0 4px 10px var(--shadow); /* Увеличенная тень */
-            padding: 1.8rem; /* Увеличенный padding */
-            margin-bottom: 1.8rem; /* Увеличенный margin */
+            padding: 1.8rem; 
+            margin-bottom: 1.8rem; 
             border-radius: 8px; /* Немного больше скругление */
             transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
         }
@@ -334,7 +334,7 @@
         .collapsible-content {
             max-height: 0;
             overflow: hidden;
-            padding: 0 1.5rem; /* Увеличенный padding */
+            padding: 0 1.5rem; 
             transition: all 0.6s ease-out; /* Более плавный переход */
             opacity: 0;
             visibility: hidden;
@@ -342,7 +342,7 @@
         
         .collapsible-content.active {
             max-height: 10000px; /* Достаточно большое значение */
-            padding: 1.5rem; /* Увеличенный padding */
+            padding: 1.5rem; 
             background: var(--gray); /* Обновлено */
             border-radius: 0 0 8px 8px; /* Немного больше скругление */
             animation: expand 0.6s ease-out; /* Более плавная анимация */
@@ -365,8 +365,8 @@
             background: var(--dark-gray); /* Обновлено */
             border: 2px solid var(--border-bright); /* Обновлено */
             box-shadow: 0 4px 10px var(--shadow); /* Увеличенная тень */
-            padding: 1.5rem; /* Увеличенный padding */
-            margin-bottom: 1.5rem; /* Увеличенный margin */
+            padding: 1.5rem; 
+            margin-bottom: 1.5rem; 
             border-radius: 8px; /* Немного больше скругление */
         }
         
@@ -386,8 +386,8 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            gap: 1.5rem; /* Увеличенный gap */
-            margin: 2.5rem 0; /* Увеличенный margin */
+            gap: 1.5rem; 
+            margin: 2.5rem 0; 
             flex-wrap: wrap;
         }
         
@@ -398,35 +398,35 @@
             border-radius: 8px; /* Немного больше скругление */
             padding: 1.8rem; /* Увеличенный padding */
             width: 100%;
-            max-width: 480px; /* Увеличенный max-width */
+            max-width: 480px; 
             flex: 1;
-            min-width: 320px; /* Увеличенный min-width */
+            min-width: 320px; 
         }
         
         .block-title {
             font-weight: 700; /* Более жирный шрифт */
             font-size: 1.25rem; /* Увеличенный размер шрифта */
             text-align: center;
-            margin-bottom: 1.25rem; /* Увеличенный margin */
-            padding-bottom: 0.8rem; /* Увеличенный padding */
+            margin-bottom: 1.25rem; 
+            padding-bottom: 0.8rem; 
             border-bottom: 2px solid var(--border); /* Увеличенная толщина границы */
             color: var(--text-light);
         }
         
         .sub-block {
-            margin-bottom: 1.25rem; /* Увеличенный margin */
+            margin-bottom: 1.25rem; 
         }
         
         .sub-block-title {
             font-weight: 600; /* Более жирный шрифт */
-            margin-bottom: 0.8rem; /* Увеличенный margin */
+            margin-bottom: 0.8rem; 
             color: var(--text-light);
             font-size: 1.05rem; /* Немного увеличенный размер шрифта */
         }
         
         .item {
-            margin-left: 1.25rem; /* Увеличенный margin */
-            margin-bottom: 0.6rem; /* Увеличенный margin */
+            margin-left: 1.25rem; 
+            margin-bottom: 0.6rem; 
             font-size: 1rem; /* Стандартный размер шрифта */
         }
         
@@ -438,7 +438,7 @@
         .plus-sign {
             font-size: 2rem; /* Увеличенный размер */
             align-self: center;
-            margin: 0 0.8rem; /* Увеличенный margin */
+            margin: 0 0.8rem; 
             color: var(--accent);
             font-weight: 700; /* Более жирный шрифт */
         }
@@ -448,21 +448,21 @@
         }
 
         .explanation {
-            max-width: 900px; /* Увеличенный max-width */
-            margin-top: 2rem; /* Увеличенный margin */
-            padding: 1.5rem; /* Увеличенный padding */
+            max-width: 900px; 
+            margin-top: 2rem; 
+            padding: 1.5rem; 
             background-color: var(--dark-gray); /* Обновлено */
             border: 2px solid var(--border-bright); /* Обновлено */
             border-radius: 8px; /* Немного больше скругление */
             font-size: 1rem;
-            line-height: 1.7; /* Улучшенная читаемость */
+            line-height: 1.7; 
             box-shadow: 0 4px 10px var(--shadow); /* Тень */
         }
         
         .section-connector {
             position: relative;
-            height: 1.25rem; /* Увеличенная высота */
-            margin: 1rem 0; /* Увеличенный margin */
+            height: 1.25rem; 
+            margin: 1rem 0; 
         }
         
         .section-connector:before {
@@ -471,27 +471,27 @@
             top: 50%;
             left: 0;
             right: 0;
-            height: 2px; /* Увеличенная толщина */
+            height: 2px; 
             background-color: var(--border); /* Обновлено */
         }
         
         .investigation-list {
             columns: 2;
-            column-gap: 2.5rem; /* Увеличенный gap */
-            margin: 1.5rem 0; /* Увеличенный margin */
+            column-gap: 2.5rem; 
+            margin: 1.5rem 0; 
         }
         
         .investigation-list li {
             break-inside: avoid;
-            margin-bottom: 0.7rem; /* Увеличенный margin */
+            margin-bottom: 0.7rem; 
             font-size: 1rem;
         }
 
         .useful-links {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Увеличен minmax */
-            gap: 1.5rem; /* Увеличенный gap */
-            margin-top: 1.5rem; /* Увеличенный margin */
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+            gap: 1.5rem; 
+            margin-top: 1.5rem; 
         }
         
         .link-card {
@@ -499,7 +499,7 @@
             border: 2px solid var(--border-bright); /* Обновлено */
             box-shadow: 0 4px 10px var(--shadow); /* Увеличенная тень */
             border-radius: 8px; /* Немного больше скругление */
-            padding: 1.8rem; /* Увеличенный padding */
+            padding: 1.8rem; 
             transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
         }
         
@@ -509,14 +509,14 @@
         }
         
         .link-card h4 {
-            margin-bottom: 0.8rem; /* Увеличенный margin */
+            margin-bottom: 0.8rem; 
             color: var(--text-light);
             font-size: 1.2rem; /* Увеличенный размер шрифта */
             font-weight: 600; /* Более жирный шрифт */
         }
         
         .link-card p {
-            margin-bottom: 1.2rem; /* Увеличенный margin */
+            margin-bottom: 1.2rem; 
             font-size: 0.98rem; /* Немного увеличенный размер шрифта */
             line-height: 1.6; /* Улучшенная читаемость */
         }
