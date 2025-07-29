@@ -1,0 +1,2197 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FIB Majestic RP</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --black: #0D1117; /* Темный фон, почти черный */
+            --dark-gray: #161B22; /* Чуть светлее черного, для карточек/секций */
+            --gray: #21262D; /* Средний серый, для интерактивных элементов */
+            --light-gray: #30363D; /* Светлый серый, для ховера/актива */
+            --text: #C9D1D9; /* Светлый текст */
+            --text-light: #F0F6FC; /* Очень светлый текст, для заголовков */
+            --accent: #58A6FF; /* Яркий акцентный цвет (синий) */
+            --accent-hover: #4C95ED; /* Более темный синий для ховера */
+            --border: #363B42; /* Цвет границ */
+            --border-bright: #444C56; /* Более яркие границы */
+            --card-bg: #161B22; /* Фон карточек */
+            --button-bg: #21262D; /* Фон кнопок */
+            --button-hover: #30363D; /* Фон кнопок при наведении */
+            --delete-btn: #E05D5D; /* Красный для кнопок удаления */
+            --delete-btn-hover: #CC4B4B; /* Темнее красный для ховера */
+            --shadow: rgba(0, 0, 0, 0.4); /* Мягкая тень */
+            --transition-speed: 0.3s; /* Скорость перехода */
+            --link-btn: #58A6FF; /* Синий для ссылок */
+            --link-btn-hover: #4C95ED; /* Темнее синий для ховера */
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif; /* Использование Poppins */
+            transition: all var(--transition-speed) ease;
+            -webkit-text-size-adjust: none;
+            -moz-text-size-adjust: none;
+            -ms-text-size-adjust: none;
+            text-size-adjust: none;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px; /* Для фиксированной навигации */
+            background-color: var(--black); /* Фон для всей страницы */
+        }
+        
+        body {
+            background-color: var(--black); /* Убедимся, что фон тела тоже черный */
+            color: var(--text);
+            line-height: 1.7; /* Улучшенная читаемость */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background-color: var(--dark-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+            max-width: 100%;
+            border-bottom: 2px solid var(--border-bright);
+            box-shadow: 0 4px 6px var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            position: relative;
+            height: 3.5rem;
+        }
+
+        .logo {
+            height: 3.5rem;
+            width: 3.5rem;
+            min-width: 3.5rem;
+            min-height: 3.5rem;
+            max-height: 3.5rem;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-right: 1rem;
+            border: 1px solid var(--accent);
+            transition: transform 0.5s ease;
+            display: block;
+        }
+
+        .logo:hover {
+            animation: logoRotate 3s linear infinite;
+        }
+
+        @keyframes logoRotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .navbar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--dark-gray);
+            z-index: -1;
+            transition: transform 0.5s ease;
+        }
+
+        .navbar:hover::after {
+            animation: navbarRotate 3s linear infinite;
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            list-style: none;
+            flex-wrap: wrap;
+            transition: transform 0.5s ease;
+            margin-top: 25px;
+        }
+        
+        .nav-links li {
+            margin-left: 1.5rem;
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            height: 2.5rem;
+            padding: 0 1.2rem;
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 1.5rem;
+            font-size: 1.08rem;
+            background: rgba(76, 255, 218, 0.08);
+            box-shadow: 0 2px 8px var(--shadow);
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--accent);
+            transition: width var(--transition-speed) ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .nav-links a:hover {
+            background: var(--accent);
+            color: var(--black);
+            box-shadow: 0 4px 16px var(--shadow);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            width: 100%;
+        }
+        
+        section {
+            background-color: var(--dark-gray); /* Обновлено */
+            border: 2px solid var(--border-bright); /* Обновлено */
+            box-shadow: 0 6px 16px var(--shadow); /* Увеличенная тень */
+            border-radius: 8px; /* Немного больше скругление */
+            padding: 2.5rem; /* Увеличенный padding */
+            margin-bottom: 2.5rem; /* Увеличенный margin */
+            animation: fadeIn 0.6s ease-out; /* Более плавное появление */
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px); /* Увеличенное смещение */
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        h1, h2, h3, h4 {
+            color: var(--text-light);
+            margin-bottom: 1.5rem; /* Увеличенный margin */
+            font-weight: 700; /* Более жирный шрифт */
+        }
+        
+        h1 {
+            font-size: 2.8rem; /* Увеличенный размер */
+            text-align: center; /* Центрирование */
+            text-shadow: 0 2px 8px var(--shadow); /* Тень для текста */
+        }
+        
+        h2 {
+            font-size: 2.2rem; /* Увеличенный размер */
+            padding-bottom: 0.8rem; /* Увеличенный padding */
+            border-bottom: 2px solid var(--border); /* Увеличенная толщина границы */
+            margin-bottom: 1.8rem; /* Увеличенный margin */
+            text-align: center; /* Центрирование */
+        }
+        
+        h3 {
+            font-size: 1.6rem; /* Увеличенный размер */
+            margin-top: 2rem; /* Увеличенный margin */
+            cursor: pointer;
+            padding: 1rem 1.5rem; /* Увеличенный padding */
+            background-color: var(--gray);
+            border-radius: 8px; /* Немного больше скругление */
+            transition: all var(--transition-speed) ease; /* Более плавный переход */
+            border: 2px solid var(--border); /* Увеличенная толщина границы */
+            position: relative;
+            padding-right: 3rem; /* Отступ для иконки */
+            box-shadow: 0 2px 8px var(--shadow); /* Тень */
+        }
+        
+        h3:hover {
+            background-color: var(--light-gray);
+            transform: translateX(12px); /* Увеличенное смещение */
+            box-shadow: 0 4px 12px var(--shadow); /* Увеличенная тень при наведении */
+        }
+
+        h3::after {
+            content: ''; /* Убран знак '+' */
+            position: absolute;
+            right: 1.5rem; /* Отступ для иконки */
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem; /* Увеличен размер иконки */
+            color: var(--accent); /* Цвет акцента */
+            transition: transform var(--transition-speed) ease;
+        }
+
+        h3.active::after {
+            content: ''; /* Убран знак '-' */
+            transform: translateY(-50%) rotate(0deg); /* Без поворота */
+        }
+
+        /* New styles for important buttons */
+        h3.important-button {
+            background-color: var(--accent); /* Акцентный цвет для важных кнопок */
+            border: 2px solid var(--accent-hover); /* Более темный акцент для границы */
+            color: var(--black); /* Темный текст на акцентном фоне */
+            font-weight: 700; /* Более жирный шрифт */
+            padding: 1.2rem 2rem; /* Увеличенный padding */
+            box-shadow: 0 6px 16px var(--shadow); /* Более выраженная тень */
+            margin: 2.5rem 0; /* Увеличенные отступы */
+            border-radius: 10px; /* Больше скругление */
+            text-align: center; /* Центрирование текста */
+            display: block; /* Занимает всю ширину */
+            width: fit-content; /* Ширина по контенту */
+            margin-left: auto; /* Центрирование */
+            margin-right: auto; /* Центрирование */
+        }
+
+        h3.important-button:hover {
+            background-color: var(--accent-hover); /* Более темный акцент при наведении */
+            color: var(--text-light); /* Светлый текст при наведении */
+            transform: translateY(-5px) scale(1.03); /* Более выраженный эффект */
+            box-shadow: 0 8px 20px var(--shadow); /* Еще более выраженная тень */
+        }
+
+        h3.important-button::after {
+            content: ''; /* Убран знак '+' для важных кнопок */
+            font-size: 2.2rem; /* Увеличен размер иконки */
+            right: 2rem; /* Отступ для иконки */
+            color: var(--black); /* Цвет иконки, чтобы контрастировал */
+        }
+        
+        p {
+            margin-bottom: 1.5rem; /* Увеличенный margin */
+            font-size: 1.05rem; /* Немного увеличенный размер шрифта */
+            line-height: 1.8; /* Улучшенная читаемость */
+        }
+        
+        ul, ol {
+            margin-left: 2rem; /* Увеличенный margin */
+            margin-bottom: 1.5rem; /* Увеличенный margin */
+        }
+        
+        li {
+            margin-bottom: 0.7rem; /* Увеличенный margin */
+            font-size: 1rem; /* Стандартный размер шрифта */
+        }
+        
+        .code-section, .article-item, .rule-content {
+            background: var(--gray); /* Обновлено */
+            border: 2px solid var(--border-bright); /* Обновлено */
+            box-shadow: 0 4px 10px var(--shadow); /* Увеличенная тень */
+            padding: 1.8rem; /* Увеличенный padding */
+            margin-bottom: 1.8rem; /* Увеличенный margin */
+            border-radius: 8px; /* Немного больше скругление */
+            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+        }
+        
+        .code-section:hover, .article-item:hover, .rule-content:hover {
+            transform: translateY(-7px); /* Увеличенное смещение */
+            box-shadow: 0 8px 18px var(--shadow); /* Увеличенная тень */
+        }
+        
+        .code-section {
+            border-left: 4px solid var(--accent); /* Увеличенная толщина границы */
+        }
+        
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            padding: 0 1.5rem; /* Увеличенный padding */
+            transition: all 0.6s ease-out; /* Более плавный переход */
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .collapsible-content.active {
+            max-height: 10000px; /* Достаточно большое значение */
+            padding: 1.5rem; /* Увеличенный padding */
+            background: var(--gray); /* Обновлено */
+            border-radius: 0 0 8px 8px; /* Немного больше скругление */
+            animation: expand 0.6s ease-out; /* Более плавная анимация */
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        @keyframes expand {
+            from {
+                opacity: 0;
+                transform: translateY(-15px); /* Увеличенное смещение */
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .faq-item {
+            background: var(--dark-gray); /* Обновлено */
+            border: 2px solid var(--border-bright); /* Обновлено */
+            box-shadow: 0 4px 10px var(--shadow); /* Увеличенная тень */
+            padding: 1.5rem; /* Увеличенный padding */
+            margin-bottom: 1.5rem; /* Увеличенный margin */
+            border-radius: 8px; /* Немного больше скругление */
+        }
+        
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid var(--accent); /* Подчеркивание */
+            transition: all 0.2s ease;
+        }
+        
+        a:hover {
+            color: var(--accent-hover);
+            border-bottom-color: transparent; /* Убрать подчеркивание при наведении */
+        }
+        
+        .crime-composition {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 1.5rem; /* Увеличенный gap */
+            margin: 2.5rem 0; /* Увеличенный margin */
+            flex-wrap: wrap;
+        }
+        
+        .composition-block {
+            background-color: var(--gray); /* Обновлено */
+            border: 2px solid var(--border-bright); /* Обновлено */
+            box-shadow: 0 4px 10px var(--shadow); /* Увеличенная тень */
+            border-radius: 8px; /* Немного больше скругление */
+            padding: 1.8rem; /* Увеличенный padding */
+            width: 100%;
+            max-width: 480px; /* Увеличенный max-width */
+            flex: 1;
+            min-width: 320px; /* Увеличенный min-width */
+        }
+        
+        .block-title {
+            font-weight: 700; /* Более жирный шрифт */
+            font-size: 1.25rem; /* Увеличенный размер шрифта */
+            text-align: center;
+            margin-bottom: 1.25rem; /* Увеличенный margin */
+            padding-bottom: 0.8rem; /* Увеличенный padding */
+            border-bottom: 2px solid var(--border); /* Увеличенная толщина границы */
+            color: var(--text-light);
+        }
+        
+        .sub-block {
+            margin-bottom: 1.25rem; /* Увеличенный margin */
+        }
+        
+        .sub-block-title {
+            font-weight: 600; /* Более жирный шрифт */
+            margin-bottom: 0.8rem; /* Увеличенный margin */
+            color: var(--text-light);
+            font-size: 1.05rem; /* Немного увеличенный размер шрифта */
+        }
+        
+        .item {
+            margin-left: 1.25rem; /* Увеличенный margin */
+            margin-bottom: 0.6rem; /* Увеличенный margin */
+            font-size: 1rem; /* Стандартный размер шрифта */
+        }
+        
+        .required {
+            color: var(--accent); /* Акцентный цвет для обязательных полей */
+            font-weight: 600; /* Более жирный шрифт */
+        }
+        
+        .plus-sign {
+            font-size: 2rem; /* Увеличенный размер */
+            align-self: center;
+            margin: 0 0.8rem; /* Увеличенный margin */
+            color: var(--accent);
+            font-weight: 700; /* Более жирный шрифт */
+        }
+        
+        .highlighted-title {
+            color: var(--accent); /* Цвет акцента для выделенных заголовков */
+        }
+
+        .explanation {
+            max-width: 900px; /* Увеличенный max-width */
+            margin-top: 2rem; /* Увеличенный margin */
+            padding: 1.5rem; /* Увеличенный padding */
+            background-color: var(--dark-gray); /* Обновлено */
+            border: 2px solid var(--border-bright); /* Обновлено */
+            border-radius: 8px; /* Немного больше скругление */
+            font-size: 1rem;
+            line-height: 1.7; /* Улучшенная читаемость */
+            box-shadow: 0 4px 10px var(--shadow); /* Тень */
+        }
+        
+        .section-connector {
+            position: relative;
+            height: 1.25rem; /* Увеличенная высота */
+            margin: 1rem 0; /* Увеличенный margin */
+        }
+        
+        .section-connector:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px; /* Увеличенная толщина */
+            background-color: var(--border); /* Обновлено */
+        }
+        
+        .investigation-list {
+            columns: 2;
+            column-gap: 2.5rem; /* Увеличенный gap */
+            margin: 1.5rem 0; /* Увеличенный margin */
+        }
+        
+        .investigation-list li {
+            break-inside: avoid;
+            margin-bottom: 0.7rem; /* Увеличенный margin */
+            font-size: 1rem;
+        }
+
+        .useful-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Увеличен minmax */
+            gap: 1.5rem; /* Увеличенный gap */
+            margin-top: 1.5rem; /* Увеличенный margin */
+        }
+        
+        .link-card {
+            background: var(--card-bg); /* Обновлено */
+            border: 2px solid var(--border-bright); /* Обновлено */
+            box-shadow: 0 4px 10px var(--shadow); /* Увеличенная тень */
+            border-radius: 8px; /* Немного больше скругление */
+            padding: 1.8rem; /* Увеличенный padding */
+            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+        }
+        
+        .link-card:hover {
+            transform: translateY(-7px); /* Увеличенное смещение */
+            box-shadow: 0 8px 18px var(--shadow); /* Увеличенная тень */
+        }
+        
+        .link-card h4 {
+            margin-bottom: 0.8rem; /* Увеличенный margin */
+            color: var(--text-light);
+            font-size: 1.2rem; /* Увеличенный размер шрифта */
+            font-weight: 600; /* Более жирный шрифт */
+        }
+        
+        .link-card p {
+            margin-bottom: 1.2rem; /* Увеличенный margin */
+            font-size: 0.98rem; /* Немного увеличенный размер шрифта */
+            line-height: 1.6; /* Улучшенная читаемость */
+        }
+        
+        .link-card a {
+            display: inline-block;
+            padding: 0.6rem 1.2rem; /* Увеличенный padding */
+            background: var(--link-btn); /* Обновлено */
+            border-radius: 6px; /* Немного больше скругление */
+            color: var(--text-light);
+            font-weight: 600; /* Более жирный шрифт */
+            border: none;
+            transition: all var(--transition-speed) ease;
+            box-shadow: 0 2px 6px var(--shadow); /* Тень */
+        }
+        
+        .link-card a:hover {
+            background: var(--link-btn-hover); /* Обновлено */
+            color: var(--text-light);
+            transform: translateY(-3px); /* Эффект при наведении */
+            box-shadow: 0 4px 10px var(--shadow); /* Увеличенная тень */
+        }
+
+        .uk-fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            background-color: rgba(0, 0, 0, 0.95); /* Более темный фон */
+            padding: 1.5rem; /* Увеличенный padding */
+            display: flex;
+            flex-direction: column;
+            border: 2px solid var(--border-bright); /* Обновлено */
+            box-shadow: 0 8px 24px var(--shadow); /* Увеличенная тень */
+            animation: fadeIn 0.4s ease;
+        }
+        
+        .uk-fullscreen-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem; /* Увеличенный margin */
+            padding-bottom: 0.6rem; /* Увеличенный padding */
+            border-bottom: 2px solid var(--border-bright); /* Обновлено */
+        }
+        
+        .uk-fullscreen-close {
+            background-color: var(--button-bg); /* Обновлено */
+            color: var(--text-light); /* Обновлено */
+            border: 2px solid var(--border-bright); /* Обновлено */
+            box-shadow: 0 2px 6px var(--shadow); /* Увеличенная тень */
+            border-radius: 6px; /* Немного больше скругление */
+            cursor: pointer;
+            font-weight: 500;
+            padding: 0.6rem 1.2rem; /* Увеличенный padding */
+            transition: all var(--transition-speed) ease;
+        }
+        
+        .uk-fullscreen-close:hover {
+            background-color: var(--button-hover); /* Обновлено */
+            transform: rotate(2deg) scale(1.05); /* Изменена анимация */
+            color: var(--accent); /* Цвет акцента при наведении */
+        }
+        
+        .uk-fullscreen-iframe {
+            flex-grow: 1;
+            border: none;
+            width: 100%;
+            height: calc(100% - 70px); /* Изменен размер */
+            border-radius: 8px; /* Немного больше скругление */
+            background-color: var(--gray); /* Фон для iframe */
+        }
+        
+        .uk-fullscreen-btn {
+            background-color: var(--button-bg); /* Обновлено */
+            color: var(--text-light); /* Обновлено */
+            border: 2px solid var(--border-bright); /* Обновлено */
+            box-shadow: 0 2px 6px var(--shadow); /* Увеличенная тень */
+            border-radius: 6px; /* Немного больше скругление */
+            cursor: pointer;
+            font-weight: 500;
+            margin-top: 1.5rem; /* Увеличенный margin */
+            display: inline-block;
+            padding: 0.8rem 1.8rem; /* Увеличенный padding */
+            transition: all var(--transition-speed) ease;
+        }
+        
+        .uk-fullscreen-btn:hover {
+            background-color: var(--button-hover); /* Обновлено */
+            transform: translateY(-3px); /* Эффект при наведении */
+            color: var(--accent); /* Цвет акцента при наведении */
+        }
+        
+        footer {
+            background-color: var(--dark-gray); /* Обновлено */
+            color: var(--text);
+            text-align: center;
+            padding: 2.5rem 0; /* Увеличенный padding */
+            margin-top: 3.5rem; /* Увеличенный margin */
+            width: 100%;
+            border-top: 2px solid var(--border); /* Увеличенная толщина границы */
+            font-size: 0.95rem; /* Немного увеличенный размер шрифта */
+            box-shadow: 0 -4px 10px var(--shadow); /* Тень сверху */
+        }
+        .Red {
+            color: var(--accent); /* Изменен цвет на акцентный */
+            font-weight: 600; /* Более жирный шрифт */
+        }
+        
+        @media (max-width: 992px) {
+            .navbar {
+                padding: 1rem 0.5rem 0.7rem 0.5rem;
+            }
+            
+            .nav-links {
+                gap: 0.7rem;
+                min-height: 44px;
+                height: 44px;
+            }
+            
+            .nav-links a {
+                padding: 0.5rem 1rem;
+                font-size: 0.98rem;
+                height: 32px;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+            
+            section {
+                padding: 1.8rem; /* Уменьшен padding для мобильных */
+                margin-bottom: 2rem; /* Уменьшен margin */
+            }
+            
+            .investigation-list {
+                columns: 1;
+            }
+            
+            .crime-composition {
+                flex-direction: column;
+                align-items: center;
+                gap: 1.2rem; /* Уменьшен gap */
+            }
+            
+            .composition-block {
+                max-width: 100%;
+                padding: 1.5rem; /* Уменьшен padding */
+            }
+            .plus-sign {
+                transform: rotate(90deg);
+                margin: 1rem 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem; /* Уменьшен размер */
+            }
+            
+            h2 {
+                font-size: 1.8rem; /* Уменьшен размер */
+            }
+            
+            h3 {
+                font-size: 1.4rem; /* Уменьшен размер */
+                padding: 0.8rem 1.2rem; /* Уменьшен padding */
+            }
+
+            h3.important-button {
+                font-size: 1.4rem; /* Уменьшен размер */
+                padding: 1rem 1.5rem; /* Уменьшен padding */
+            }
+            
+            .crime-composition {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .plus-sign {
+                transform: rotate(90deg);
+                margin: 1rem 0;
+            }
+
+            .useful-links {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo-container {
+                flex-direction: column;
+                text-align: center;
+                margin-bottom: 1rem;
+            }
+            
+            .logo {
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
+            .uk-fullscreen-iframe {
+                height: calc(100% - 60px); /* Уменьшен размер */
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem; /* Дальнейшее уменьшение */
+            }
+            
+            h2 {
+                font-size: 1.5rem; /* Дальнейшее уменьшение */
+            }
+            
+            h3 {
+                font-size: 1.25rem; /* Дальнейшее уменьшение */
+                padding: 0.7rem; /* Уменьшен padding */
+            }
+            
+            p, li {
+                font-size: 0.9rem; /* Уменьшен размер шрифта */
+            }
+            
+            section {
+                padding: 1.5rem; /* Дальнейшее уменьшение */
+            }
+            
+            .code-section, .article-item, .rule-content {
+                padding: 1.2rem; /* Уменьшен padding */
+            }
+            
+            .composition-block {
+                padding: 1.2rem; /* Уменьшен padding */
+            }
+            
+            .block-title {
+                font-size: 1.1rem; /* Уменьшен размер шрифта */
+            }
+            
+            .nav-links {
+                justify-content: center;
+            }
+            
+            .nav-links li {
+                margin: 0.5rem;
+            }
+            .link-card {
+                padding: 1.5rem; /* Уменьшен padding */
+            }
+            .link-card h4 {
+                font-size: 1.1rem; /* Уменьшен размер шрифта */
+            }
+            .link-card p {
+                font-size: 0.9rem; /* Уменьшен размер шрифта */
+            }
+            .link-card a {
+                padding: 0.5rem 1rem; /* Уменьшен padding */
+                font-size: 0.95rem; /* Уменьшен размер шрифта */
+            }
+            .uk-fullscreen-close {
+                padding: 0.5rem 1rem; /* Уменьшен padding */
+                font-size: 0.9rem; /* Уменьшен размер шрифта */
+            }
+            .uk-fullscreen-btn {
+                padding: 0.7rem 1.5rem; /* Уменьшен padding */
+                font-size: 0.95rem; /* Уменьшен размер шрифта */
+            }
+            footer {
+                padding: 2rem 0; /* Уменьшен padding */
+                margin-top: 3rem; /* Уменьшен margin */
+                font-size: 0.85rem; /* Уменьшен размер шрифта */
+            }
+        }
+
+        .postanovleniya-container {
+            background: var(--gray);
+            padding: 2rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
+
+        .admin-panel, .admin-login {
+            background: var(--dark-gray); /* Обновлено */
+            padding: 2rem; /* Увеличенный padding */
+            border-radius: 8px; /* Немного больше скругление */
+            margin-bottom: 2.5rem; /* Увеличенный margin */
+            border: 2px solid var(--border-bright); /* Обновлено */
+            box-shadow: 0 6px 16px var(--shadow); /* Увеличенная тень */
+        }
+
+        .post-form, .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem; /* Увеличенный gap */
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem; /* Увеличенный gap */
+        }
+
+        .form-group label {
+            color: var(--text-light);
+            font-weight: 600; /* Более жирный шрифт */
+            font-size: 1.05rem; /* Немного увеличенный размер шрифта */
+        }
+
+        .form-group input, .form-group textarea {
+            padding: 0.8rem; /* Увеличенный padding */
+            border-radius: 6px; /* Немного больше скругление */
+            border: 2px solid var(--border); /* Обновлено */
+            box-shadow: 0 2px 8px var(--shadow); /* Увеличенная тень */
+            background: var(--gray); /* Обновлено */
+            color: var(--text);
+            font-size: 1rem;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .form-group textarea {
+            min-height: 180px; /* Увеличенная высота */
+            resize: vertical;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--accent); /* Обновлено */
+            box-shadow: 0 0 0 3px var(--accent-hover); /* Увеличенный box-shadow */
+            outline: none;
+            transform: translateY(-2px);
+        }
+
+        .submit-btn, .login-btn, .logout-btn {
+            background: var(--accent); /* Обновлено */
+            color: var(--black); /* Обновлено */
+            border: 2px solid var(--accent-hover); /* Обновлено */
+            box-shadow: 0 4px 10px var(--shadow); /* Увеличенная тень */
+            border-radius: 8px; /* Немного больше скругление */
+            cursor: pointer;
+            font-weight: 600; /* Более жирный шрифт */
+            padding: 0.8rem 1.8rem; /* Увеличенный padding */
+            transition: all var(--transition-speed) ease;
+            font-size: 1.1rem; /* Увеличенный размер шрифта */
+        }
+
+        .submit-btn:hover, .login-btn:hover, .logout-btn:hover {
+            background: var(--accent-hover); /* Обновлено */
+            transform: translateY(-3px); /* Увеличенное смещение */
+            box-shadow: 0 6px 14px var(--shadow); /* Увеличенная тень */
+        }
+
+        .posts-list {
+            display: grid;
+            gap: 1.8rem; /* Увеличенный gap */
+            margin-top: 1.8rem; /* Увеличенный margin */
+        }
+
+        .post-card {
+            background: var(--card-bg); /* Обновлено */
+            padding: 1.8rem; /* Увеличенный padding */
+            border-radius: 8px; /* Немного больше скругление */
+            border: 2px solid var(--border-bright); /* Обновлено */
+            box-shadow: 0 4px 10px var(--shadow); /* Увеличенная тень */
+            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+        }
+        
+        .post-card:hover {
+            transform: translateY(-7px); /* Увеличенное смещение */
+            box-shadow: 0 8px 18px var(--shadow); /* Увеличенная тень */
+        }
+
+        .post-card h4 {
+            color: var(--text-light);
+            margin-bottom: 1.2rem; /* Увеличенный margin */
+            font-size: 1.3rem; /* Увеличенный размер шрифта */
+            font-weight: 600; /* Более жирный шрифт */
+        }
+
+        .post-card p {
+            margin-bottom: 1.2rem; /* Увеличенный margin */
+            font-size: 1rem; /* Стандартный размер шрифта */
+            line-height: 1.7; /* Улучшенная читаемость */
+        }
+
+        .post-card img {
+            max-width: 100%;
+            border-radius: 6px; /* Немного больше скругление */
+            margin-top: 1.2rem; /* Увеличенный margin */
+            box-shadow: 0 2px 8px var(--shadow); /* Тень */
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 1.2rem; /* Увеличенный gap */
+            margin-top: 1.5rem; /* Увеличенный margin */
+        }
+
+        .delete-btn {
+            background: var(--delete-btn); /* Обновлено */
+            color: var(--text-light); /* Обновлено */
+            border: 2px solid var(--delete-btn); /* Обновлено */
+            box-shadow: 0 2px 6px var(--shadow); /* Увеличенная тень */
+            border-radius: 6px; /* Немного больше скругление */
+            cursor: pointer;
+            font-weight: 500;
+            padding: 0.6rem 1.2rem; /* Увеличенный padding */
+            transition: all var(--transition-speed) ease;
+            font-size: 0.95rem; /* Немного уменьшенный размер шрифта */
+        }
+        
+        .delete-btn:hover {
+            background: var(--delete-btn-hover); /* Обновлено */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px var(--shadow); /* Увеличенная тень */
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.8rem; /* Увеличенный margin */
+        }
+        img {
+            transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease; /* Добавлен transform */
+        }
+
+        img[loading] {
+            opacity: 0;
+        }
+
+        img.loaded {
+            opacity: 1;
+            transform: scale(1); /* Для эффекта появления */
+        }
+
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--black); /* Обновлено */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: fadeOut 0.6s ease 1.2s forwards; /* Увеличенная задержка */
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        .loading-spinner {
+            width: 60px; /* Увеличенный размер */
+            height: 60px; /* Увеличенный размер */
+            border: 4px solid var(--border); /* Увеличенная толщина границы */
+            border-top-color: var(--accent); /* Обновлено */
+            border-radius: 50%;
+            animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite; /* Более динамичная анимация */
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        h3[onclick] {
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .logo-title-group {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+        .logo-title-group h1 {
+            font-size: 2.2rem; /* Увеличенный размер шрифта */
+            line-height: 1;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            height: 2.8rem; /* Увеличенная высота */
+            color: var(--text-light); /* Обновлено */
+        }
+        .logo-by-connor {
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 65%; /* Изменено положение */
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            font-size: 1.05rem; /* Немного увеличенный размер шрифта */
+            color: var(--accent);
+            font-weight: 500;
+            letter-spacing: 0.7px; /* Увеличен letter-spacing */
+            transform: translateY(5px); /* Смещение вниз */
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .logo-container:hover .logo-by-connor,
+        .logo:focus + .logo-title-group .logo-by-connor {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .explanation-row {
+            display: flex;
+            align-items: stretch;
+            gap: 0.75rem; /* Увеличен gap */
+            margin-bottom: 0.75rem; /* Увеличен margin */
+        }
+        .explanation-btn, .explanation-heading {
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        .explanation-btn {
+            background: var(--button-bg); /* Использование переменной */
+            color: var(--text-light); /* Использование переменной */
+            border: 2px solid var(--border-bright); /* Использование переменной */
+            border-radius: 8px; /* Немного больше скругление */
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0 1.2rem;
+            min-width: 140px; /* Увеличен min-width */
+            box-sizing: border-box;
+            box-shadow: 0 2px 8px var(--shadow); /* Более выраженная тень */
+            transition: background 0.2s, color 0.2s, border 0.2s, transform 0.2s; /* Добавлен transform */
+            justify-content: center;
+            height: 50px; /* Увеличенная высота */
+        }
+        .explanation-btn:hover {
+            background: var(--button-hover); /* Использование переменной */
+            color: var(--accent); /* Использование переменной */
+            border-color: var(--accent); /* Использование переменная */
+            transform: translateY(-3px); /* Эффект при наведении */
+        }
+        .explanation-heading {
+            flex: 1;
+            margin: 0;
+            font-size: 1.25rem; /* Увеличен размер шрифта */
+            padding: 0 1.25rem; /* Увеличен padding */
+            border-radius: 8px; /* Немного больше скругление */
+            border: 2px solid var(--border); /* Увеличенная толщина границы */
+            background-color: var(--gray);
+            color: var(--text-light);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            display: flex;
+            align-items: center;
+            min-height: 50px; /* Увеличенная высота */
+            position: relative; /* Для псевдоэлемента */
+            padding-right: 3rem; /* Отступ для иконки */
+        }
+        .explanation-heading:hover {
+            background-color: var(--light-gray);
+            transform: translateX(10px);
+        }
+        .explanation-heading::after {
+            content: ''; /* Убран знак '+' */
+            position: absolute;
+            right: 1.25rem; /* Отступ для иконки */
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.8rem; /* Увеличен размер иконки */
+            color: var(--accent); /* Цвет акцента */
+            transition: transform var(--transition-speed) ease;
+        }
+        .explanation-heading.active::after {
+            content: ''; /* Убран знак '-' */
+            transform: translateY(-50%) rotate(0deg); /* Без поворота */
+        }
+        @media (max-width: 600px) {
+            .explanation-heading {
+                font-size: 1.1rem; /* Изменен размер шрифта */
+                padding: 0 0.75rem;
+                min-height: 45px;
+            }
+            .explanation-btn {
+                font-size: 0.95rem;
+                min-width: 100px;
+                padding: 0 0.7rem;
+                height: 45px;
+            }
+            .explanation-title-row h2 {
+                font-size: 1.4rem;
+            }
+        }
+
+        .explanation-title-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.75rem; /* Увеличен margin */
+        }
+        .explanation-title-row h2 {
+            margin: 0;
+            font-size: 2rem; /* Увеличен размер шрифта */
+            font-weight: 600;
+            color: var(--text-light);
+        }
+        @media (max-width: 600px) {
+            .explanation-title-row h2 {
+                font-size: 1.4rem;
+            }
+            .explanation-title-row .explanation-btn {
+                font-size: 0.95rem;
+                min-width: 100px;
+                padding: 0 0.7rem;
+            }
+        }
+
+        /* Apple-style Notch Navbar: Logo left, links right, glass/fancy style */
+        .notch-navbar {
+            position: sticky;
+            top: 0;
+            z-index: 2000;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+            background: rgba(20, 30, 50, 0.35);
+            backdrop-filter: blur(18px) saturate(1.5);
+            box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);
+            border-bottom: 1.5px solid rgba(88,166,255,0.18); /* Обновлено */
+            padding: 0 2.5vw;
+            transition: background 0.3s;
+        }
+        .notch-logo {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+        .fib-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid var(--accent); /* Обновлено */
+            box-shadow: 0 2px 8px rgba(88,166,255,0.18); /* Обновлено */
+            background: var(--text-light); /* Обновлено */
+            object-fit: cover;
+            transition: transform 0.4s cubic-bezier(.4,0,.2,1);
+        }
+        .fib-icon:hover {
+            transform: scale(1.12) rotate(8deg);
+        }
+        .notch-nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2.2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            transition: all 0.3s;
+        }
+        .notch-nav-links li a {
+            color: var(--text); /* Обновлено */
+            font-weight: 600;
+            font-size: 1.08rem;
+            padding: 0.6rem 1.3rem;
+            border-radius: 1.5rem;
+            background: rgba(88,166,255,0.08); /* Обновлено */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12); /* Обновлено */
+            text-decoration: none;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+            position: relative;
+        }
+        .notch-nav-links li a:hover {
+            background: var(--accent); /* Обновлено */
+            color: var(--black); /* Обновлено */
+            box-shadow: 0 4px 16px rgba(88,166,255,0.18); /* Обновлено */
+        }
+        .notch-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 48px;
+            height: 48px;
+            background: rgba(88,166,255,0.12); /* Обновлено */
+            border: none;
+            border-radius: 50%;
+            margin-left: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(88,166,255,0.18); /* Обновлено */
+            transition: background 0.2s;
+            z-index: 10;
+        }
+        .notch-menu-btn:hover {
+            background: var(--accent); /* Обновлено */
+        }
+        .notch-menu-btn span {
+            display: block;
+            width: 26px;
+            height: 3.5px;
+            background: var(--text); /* Обновлено */
+            margin: 3.5px 0;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+        @media (max-width: 900px) {
+            .notch-navbar {
+                padding: 0 1vw;
+            }
+            .notch-nav-links {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                right: 0;
+                background: rgba(20,30,50,0.95);
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem;
+                padding: 2rem 0 2.5rem 0;
+                box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);
+                border-bottom-left-radius: 18px;
+                border-bottom-right-radius: 18px;
+                transform: translateY(-120%);
+                opacity: 0;
+                pointer-events: none;
+            }
+            .notch-nav-links.open {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: auto;
+                transition: all 0.35s cubic-bezier(.4,0,.2,1);
+            }
+            .notch-menu-btn {
+                display: flex;
+            }
+        }
+        .image-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding-bottom: 0.75rem; /* Добавлен padding */
+        }
+        .image-container img {
+            max-width: 100%; /* Изменено на 100% */
+            height: auto;
+            border-radius: 8px; /* Немного больше скругление */
+            margin: 1.2rem 0; /* Увеличенный margin */
+            display: block;
+            box-shadow: 0 4px 10px var(--shadow); /* Тень для изображений */
+        }
+        @media (max-width: 900px) {
+            .image-container {
+                overflow-x: auto;
+                width: 100vw;
+                padding-bottom: 0.6rem; /* Уменьшен padding */
+            }
+            .image-container img {
+                min-width: 320px; /* Увеличен min-width */
+                max-width: 98vw; /* Увеличен max-width */
+                width: 98vw;
+                height: auto;
+            }
+        }
+        @media (max-width: 600px) {
+            .image-container {
+                overflow-x: auto;
+                width: 100vw;
+                padding-bottom: 0.5rem; /* Уменьшен padding */
+            }
+            .image-container img {
+                min-width: 280px; /* Увеличен min-width */
+                max-width: 98vw;
+                width: 98vw;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="loading">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <nav class="notch-navbar">
+        <div class="notch-logo">
+            <img src="https://i.namu.wiki/i/XXGQFG5MWC7iY75oY2LX3NpGe3eABvGylkrHGbs4Z4IYvb6mHkf04YEzvNuygmuFcGlKefuaEbsucLLevyvWow.webp" alt="FIB" class="fib-icon">
+        </div>
+        <ul class="notch-nav-links" id="notchNavLinks">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#legislation">Законодательная база</a></li>
+            <li><a href="#uk">Уголовный кодекс</a></li>
+            <li><a href="#rules">Основные правила</a></li>
+            <li><a href="#useful-links">Полезные ссылки</a></li>
+            <li><a href="#faq">Частые вопросы</a></li>
+            <li><a href="#video-guide">Guide</a></li>
+        </ul>
+        <button class="notch-menu-btn" id="notchMenuBtn" aria-label="Открыть меню">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <div class="container">
+        <section id="home">
+            <h2>Добро пожаловать в Федеральное Бюро Расследований</h2>
+            <p>Неофициальный сайт фракции FIB на проекте Majestic RP. Здесь вы найдете всю необходимую информацию для новичков и действующих сотрудников.</p>
+
+            <div class="useful-links">
+                <div class="link-card">
+                    <h4>Заявление на стажировку</h4>
+                    <p>Оставьте заявку на стажировку в FIB. После подачи ожидайте обратной связи от руководства.</p>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdLpp4RrcEBkkb_MSsJJ_EXnRVlBrTEY9ScJ5VNscFbN4furA/viewform" target="_blank">Перейти</a>
+                </div>
+                <div class="link-card">
+                    <h4>Заявление на восстановление</h4>
+                    <p>Заполните заявление на восстановление. После подачи заявки ожидайте рассмотрения и решения по вашему вопросу.</p>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSffiZ1Qp1ZGVC_A2HhPibPSKnm7WuJTQ-FRScRDXeMl1UNi9Q/viewform" target="_blank">Перейти</a>
+                </div>
+                <div class="link-card">
+                    <h4>Заявление на перевод</h4>
+                    <p>Подайте заявление на перевод в другую фракцию. Следите за статусом заявки в соответствующем канале Discord.</p>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeisQ3BkrVLxSrH1N4ZwPH-pdyoQ-91jLjCSTlLxXRtpDCpWw/viewform" target="_blank">Перейти</a>
+                </div>
+            </div>
+        </section>
+        
+        <section id="legislation">
+            <img src="https://i.namu.wiki/i/XXGQFG5MWC7iY75oY2LX3NpGe3eABvGylkrHGbs4Z4IYvb6mHkf04YEzvNuygmuFcGlKefuaEbsucLLevyvWow.webp" alt="FIB" class="fib-icon legislation-icon"><h2>Законодательная база</h2>
+            
+            <div class="code-section">
+                <h4>Уголовный кодекс</h4>
+                <p>Основной закон, регулирующий уголовные преступления и наказания в штате Сан-Андреас.</p>
+
+            <div class="useful-links">
+                <div class="link-card">
+                    <h4>Уголовный кодекс</h4>
+                    <p>Основной закон, регулирующий уголовные преступления и наказания в штате Сан-Андреас.</p>
+                    <a href="https://forum.majestic-rp.ru/threads/ugolovnyi-kodeks-shtata-san-andreas.2247404/" target="_blank">Перейти</a>
+                </div>
+                <div class="link-card">
+                    <h4>Процессуальный кодекс</h4>
+                    <p>Здесь субъективные и объективные стороны преступления (состав преступления), субъекты задержания, а также иные нормативно-правовые акты.</p>
+                    <a href="https://forum.majestic-rp.ru/threads/protsessual-nyi-kodeks-shtata-san-andreas.2247406/" target="_blank">Перейти</a>
+                </div>
+                <div class="link-card">
+                    <h4>Дорожный кодекс штата Сан-Андреас​</h4>
+                    <p>Просто Дорожный кодекс.</p>
+                    <a href="https://forum.majestic-rp.ru/threads/dorozhnyi-kodeks-shtata-san-andreas.2247397/" target="_blank">Перейти</a>
+                </div>
+            </div>
+            
+            <div class="code-section">
+                <h4>Анти-Адвокат</h4>
+                <p>Против Адвокатов.</p>
+                
+                <h3 onclick="toggleCollapse('lawyer-crime-content')" class="important-button">Состав преступления против адвокатов</h3>
+                <div class="collapsible-content" id="lawyer-crime-content">
+                    <div class="crime-composition">
+                        <div class="composition-block">
+                            <div class="block-title highlighted-title">Объективные признаки</div>
+                            
+                            <div class="sub-block">
+                                <div class="sub-block-title">Объект</div>
+                                <div class="item">Потерпевший</div>
+                                <div class="item">Предмет</div>
+                                <div class="item">Охраняемые законом интересы</div>
+                            </div>
+                            
+                            <div class="section-connector"></div>
+                            
+                            <div class="sub-block">
+                                <div class="sub-block-title highlighted-title">Объективная сторона</div>
+                                <div class="item">Деяние (действие/бездействие)</div>
+                                <div class="item">Общественно опасные последствия</div>
+                                <div class="item">Причинная связь</div>
+                                <div class="item">Время, место, способ</div>
+                                <div class="item">Орудия и средства/обстановка</div>
+                            </div>
+                        </div>
+                        
+                        <div class="composition-block">
+                            <div class="block-title highlighted-title">Субъективные признаки</div>
+                            
+                            <div class="sub-block">
+                                <div class="sub-block-title">Субъект</div>
+                                <div class="item">Физическое лицо</div>
+                                <div class="item">Возраст</div>
+                                <div class="item">Вменяемость</div>
+                                <div class="item">Специальный субъект</div>
+                            </div>
+                            
+                            <div class="section-connector"></div>
+                            
+                            <div class="sub-block">
+                                <div class="sub-block-title highlighted-title">Субъективная сторона</div>
+                                <div class="item">Вина (умысел/неосторожность)</div>
+                                <div class="item">Мотив (корысть, месть)</div>
+                                <div class="item">Цель (воспрепятствование правосудию)</div>
+                                <div class="item">Эмоциональное состояние</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="explanation">
+                        <p><strong>Объективные признаки</strong> - внешняя характеристика преступления, то, что можно наблюдать и фиксировать:</p>
+                        <ul>
+                            <li><strong>Объект</strong> - то, на что направлено преступное посягательство (охраняемые законом интересы правосудия).</li>
+                            <li><strong>Объективная сторона</strong> - внешнее проявление преступления, включая деяние (обязательный признак), последствия и связь между ними.</li>
+                        </ul>
+                        
+                        <p><strong>Субъективные признаки</strong> - внутренняя характеристика преступления, связанная с лицом, его совершившим:</p>
+                        <ul>
+                            <li><strong>Субъект</strong> - лицо, совершившее преступление (обязательные признаки - возраст и вменяемость).</li>
+                            <li><strong>Субъективная сторона</strong> - психическое отношение лица к содеянному (обязательный признак - вина).</li>
+                        </ul>
+                        
+                        <p>Красным цветом выделены <strong>обязательные признаки</strong> состава преступления. Без любого из них состав преступления отсутствует.</p>
+                        <p><strong>Примечание:</strong> Для преступлений против правосудия (в т.ч. действий адвокатов) часто требуется специальный субъект - лицо, использующее свои профессиональные полномочия.</p>
+                    </div>
+                    
+                    <!-- Section 2: Формы вины -->
+                    <h3 onclick="toggleCollapse('guilt-forms-content')" class="important-button">Формы вины</h3>
+                    <div class="collapsible-content" id="guilt-forms-content">
+                        <div class="composition-section">
+                            <div class="crime-composition">
+                                <div class="composition-block">
+                                    <div class="block-title">1. Умысел</div>
+                                    
+                                    <div class="sub-block">
+                                        <div class="sub-block-title">Прямой умысел:</div>
+                                        <div class="item">Осознавал противоправность деяния</div>
+                                        <div class="item">Предвидел наступление общественно вредных последствий</div>
+                                        <div class="item">Желал наступления этих последствий</div>
+                                    </div>
+                                    
+                                    <div class="section-connector"></div>
+                                    
+                                    <div class="sub-block">
+                                        <div class="sub-block-title">Косвенный умысел:</div>
+                                        <div class="item">Осознавал противоправность деяния</div>
+                                        <div class="item">Предвидел наступление общественно вредных последствий</div>
+                                        <div class="item">Не желал, но сознательно допускал наступление этих последствий</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="composition-block">
+                                    <div class="block-title">2. Неосторожность</div>
+                                    
+                                    <div class="sub-block">
+                                        <div class="sub-block-title">Легкомыслие:</div>
+                                        <div class="item">Осознавал противоправность деяния</div>
+                                        <div class="item">Предвидел наступление общественно опасного вреда</div>
+                                        <div class="item">Легкомысленно рассчитывал на предотвращение последствий</div>
+                                    </div>
+                                    
+                                    <div class="section-connector"></div>
+                                    
+                                    <div class="sub-block">
+                                        <div class="sub-block-title">Небрежность:</div>
+                                        <div class="item">Не осознавал противоправности деяния</div>
+                                        <div class="item">Не предвидел наступления общественно опасного вреда</div>
+                                        <div class="item">Но мог и должен был предвидеть</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Section 3: Следственные действия (hidden under Формы вины) -->
+                        <h3 onclick="toggleCollapse('investigation-actions-content')" class="important-button">Следственные действия</h3>
+                        <div class="collapsible-content" id="investigation-actions-content">
+                            <div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center;">
+                                <div style="flex:1; min-width: 260px; max-width: 400px; background: var(--gray); border: 2px solid var(--accent); border-radius: 8px; box-shadow: 0 4px 16px var(--shadow); padding: 1.5rem; margin-bottom: 1rem;">
+                                    <div style="font-weight: 700; color: var(--accent); font-size: 1.2rem; margin-bottom: 1rem;">Процессуальные действия</div>
+                                    <ul style="color: var(--text-light);">
+                                        <li>а) Допрос</li>
+                                        <li>б) Осмотр</li>
+                                        <li>в) Обыск</li>
+                                        <li>г) Выемка</li>
+                                        <li>д) Очная ставка</li>
+                                        <li>е) Опознание</li>
+                                        <li>ё) Освидетельствование</li>
+                                    </ul>
+                                </div>
+                                <div style="flex:1; min-width: 260px; max-width: 400px; background: var(--gray); border: 2px solid var(--accent); border-radius: 8px; box-shadow: 0 4px 16px var(--shadow); padding: 1.5rem; margin-bottom: 1rem;">
+                                    <div style="font-weight: 700; color: var(--accent); font-size: 1.2rem; margin-bottom: 1rem;">Оперативные и иные действия</div>
+                                    <ul style="color: var(--text-light);">
+                                        <li>ж) Проверка показаний</li>
+                                        <li>з) Производство судебной экспертизы</li>
+                                        <li>и) Контроль и запись переговоров</li>
+                                        <li>й) Следственный эксперимент</li>
+                                        <li>к) Возбуждение дела (принятие заявления или фиксация нарушения)</li>
+                                        <li>л) Оперативно-розыскные мероприятия</li>
+                                        <li>м) Задержание</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="uk">
+            <img src="https://i.namu.wiki/i/XXGQFG5MWC7iY75oY2LX3NpGe3eABvGylkrHGbs4Z4IYvb6mHkf04YEzvNuygmuFcGlKefuaEbsucLLevyvWow.webp" alt="FIB" class="fib-icon uk-icon">
+            <h2>Уголовный кодекс</h2>
+            
+            <div class="uk-section">
+                <h3 onclick="toggleCollapse('uk-table-content')">Интерактивная таблица Уголовного кодекса</h3>
+                <div class="collapsible-content" id="uk-table-content">
+                    <p>Для удобного просмотра таблицы используйте кнопку "Полноэкранный режим" ниже.</p>
+                    <button class="uk-fullscreen-btn" id="fullscreen-btn">Полноэкранный режим</button>
+                </div>
+            </div>
+        </section>
+        <section id="protected-territories">
+    <div class="explanation-title-row">
+        <h2>Закон о закрытых или особо охраняемых территориях</h2>
+ 
+    </div>
+    <div class="explanation-row">
+        <h3 class="explanation-heading" onclick="toggleCollapse('categories-content')">Статья 1. Категории охраняемых территорий | Статья 2. Особо охраняемыме объекты | Статья 5. Визуализация территорий определена изображениями: ​</h3>
+    </div>
+    <div id="explanation-modal" class="explanation-modal" style="display: none;">
+
+    </div>
+    <div class="collapsible-content" id="categories-content">
+        <div class="rule-content">
+            <p>Охраняемыми объектами являются следующие:</p>
+            <ul>
+                <li>- ВПП, ангары аэропорта и прилегающие территории</li>
+                <li>- Дополнительные объекты, указанные в нормативно-правовых актах</li>
+                <li>- Капитолий Штата Сан-Андреас, кроме территории холла</li>
+                <li>- Участки Los Santos Police Department и Sheriff Department и служебные парковки, кроме территории холла</li>
+                <li>- Территория острова Кайо-Перико, воды на 1 милю от берега острова Кайо-Перико</li>
+                <li>- Здания медицинских учреждений, здание Weazel News.</li>
+                <li>- Авианосец, воды на 1 милю от авианосца</li>
+                <li>- Здание Суда</li>
+            </ul>
+            <p>Статья 2. Особо охраняемыми объектами являются следующие: </p>
+            <ul>
+                <li>- Форт Занкудо. ​</li>
+                <li>-Офис FIB. ​</li>
+            </ul>
+            <p>Статья 5. Визуализация территорий определена изображениями: ​:</p>
+            <ul>
+                <li>- Белым цветом выделяются прилегающие территории к государственным объектам.​</li>
+                <li>- Желтым и черным цветом выделяются территории охраняемых объектов. ​</li>
+                <li>- Красным цветом выделяются территории особо охраняемых объектов.​</li>
+            </ul>
+            
+        </div>
+    </div>
+    
+    <h3 onclick="toggleCollapse('regime-content')">Режим охраняемых территорий LSPD</h3>
+    <div class="collapsible-content" id="regime-content">
+            <h4>LSPD</h4>
+            <div class="image-container">
+                <img src="https://i.ibb.co/G2mmf1p/image-1.png" alt="LSPD">
+                <img src="https://i.ibb.co/8DxK06K/lspd-5.png" alt="LSPD">
+                <img src="https://i.ibb.co/KrHFMcy/lspdd.png" alt="LSPD">
+                <img src="https://i.ibb.co/nRLYD5Y/lspd-3.png" alt="LSPD">
+                <img src="https://i.ibb.co/vdvr2bt/lspd-4.png" alt="LSPD">
+                <img src="https://i.ibb.co/pwhBxJn/lspd-8.png" alt="LSPD">
+                <img src="https://i.ibb.co/5BybC5c/lspd-1.png" alt="LSPD">
+                <img src="https://i.ibb.co/pQPNqtx/lspd-9.png" alt="LSPD">
+            </div>
+    </div>
+    
+    <h3 onclick="toggleCollapse('responsibility-content')">Режим охраняемых территорий LSSD</h3>
+    <div class="collapsible-content" id="responsibility-content">
+            <h4>LSSD(SANDY)</h4>
+            <div class="image-container">
+                <img src="https://i.ibb.co/2jm4Tkt/sendic-5.png" alt="LSPD">
+                <img src="https://i.imgur.com/IiKXoBG.png" alt="">
+                <img src="https://i.ibb.co/PrYnhx5/sendic-3.png" alt="LSPD">
+            <h4>LSSD(PALETO)</h4>
+                <img src="https://i.ibb.co/YQZhtP3/paleto-lscsd-5.png" alt="LSPD">
+                <img src="https://i.ibb.co/x1SbvM0/paleto-lscsd-3.png" alt="LSPD">
+                <img src="https://i.ibb.co/MDQkDjM/paleto-lscsd-2.png" alt="LSPD">
+                <img src="https://i.ibb.co/gj9kmSV/paleto-lscsd-1.png" alt="LSPD">
+            </div>
+    </div>
+
+        <h3 onclick="toggleCollapse('responsibility-content1')">Режим охраняемых территорий GOV</h3>
+    <div class="collapsible-content" id="responsibility-content1">
+            <h4>GOV</h4>
+            <div class="image-container">
+                <img src="https://i.ibb.co/ZMkK7Fz/gov-3.png" alt="LSPD">
+                <img src="https://i.postimg.cc/XqN5ybZc/SH1.png" alt="">
+                <img src="https://i.postimg.cc/wvqMwk69/SH2.png" alt="LSPD">
+                <img src="https://i.postimg.cc/VkPY7FR2/SH3.png" alt="LSPD">
+                <img src="https://i.postimg.cc/zByvmGRQ/SH4.png" alt="LSPD">
+                <img src="https://i.postimg.cc/287zKZK6/SH6.png" alt="LSPD">
+                <img src="https://i.ibb.co/pzHbyQS/gov-4.png" alt="LSPD">
+            </div>
+    </div>
+    
+    <h3 onclick="toggleCollapse('authority-content')">Режим охраняемых территорий FIB</h3>
+    <div class="collapsible-content" id="authority-content">
+            <h4>FIB</h4>
+            <div class="image-container">
+                <img src="https://i.ibb.co/S3ZDxv1/fib-4.png" alt="LSPD">
+                <img src="https://i.ibb.co/P4QpmjR/fib-3.png" alt="">
+            </div>
+    </div>
+        <h3 onclick="toggleCollapse('authority-content2')">Режим охраняемых территорий SANG</h3>
+    <div class="collapsible-content" id="authority-content2">
+            <h4>SANG</h4>
+            <div class="image-container">
+                <img src="https://i.ibb.co/Y3BJFJw/sang-3.png" alt="LSPD">
+                <img src="https://i.ibb.co/X7ySmdL/sangg2.png" alt="">
+                <img src="https://i.ibb.co/jzLNrC1/4.png" alt="LSPD">
+                <img src="https://i.ibb.co/5RQ1zZj/sang-1.png" alt="">
+            </div>
+    </div>
+</section>
+        
+        <section id="rules">
+            <img src="https://i.namu.wiki/i/XXGQFG5MWC7iY75oY2LX3NpGe3eABvGylkrHGbs4Z4IYvb6mHkf04YEzvNuygmuFcGlKefuaEbsucLLevyvWow.webp" alt="FIB" class="fib-icon rules-icon">
+            <h2>Основные правила проекта</h2>
+            
+            <h3 onclick="toggleCollapse('air-drop-content')">Война за Air Drop</h3>
+            <div class="collapsible-content" id="air-drop-content">
+                <div class="rule-content">
+                    <p><a href="https://forum.majestic-rp.ru/threads/pravila-voiny-za-airdrop.210836/">Тык*</a></p>
+                    <p>1. Запрещено DB. | Ban 3-10 дней / HardBan 7-30 дней.</p>
+                    <p>2. На территории ВЗА запрещено вождение любого транспорта. | Demorgan 30-60 минут.</p>
+                    <p>3. Участники, которые находятся вне зоны ВЗА, обязаны стремиться попасть к AirDrop'у, не задерживаясь на нейтральной территории. | Demorgan 45-90 минут.</p>
+                    <p>4. Запрещено использование heavy sniper, heavy sniper mk2 ,Marksman rifle MK2, тазера, наручников, стяжек, веревок и дронов, ношение тепловизоров. | Demorgan 90 минут / Ban / HardBan 3-5 дней + изъятие предмета.</p>
+                    <p>5. Запрещено покидать игру во время ВЗА. | WARN / HardBan 2-4 дня.</p>
+                    <p>6. Запрещено использование анимаций. | Demorgan 35-90 минут / WARN.
+Исключение: функциональное использование "ползать", "присесть"..</p>
+                    <p>7. Запрещено перехватывать / намеренно удерживать вражескую матовозку. | Demorgan 60-100 минут + изъятие полученного.</p>
+                    <p>8. Государственные силовые структуры могут принимать участие в ВЗА, которое происходит в: 00:00, 04:00, 08:00, 12:00. | Demorgan 45 минут.
+Примечание: все полученные предметы сотрудники государственных организаций обязаны положить на склад, в случае отсутствия данного действия, оно будет расцениваться как слив склада.
+                </p>
+                <p>
+                    9. Окончанием ВЗА считается нахождение 1 фракции / семьи на территории (в конце мероприятия).
+Пояснение: территорией ВЗА считается как функциональная, так и прилегающая к ней зона.
+                </p>
+                </div>
+            </div>
+            
+            <h3 onclick="toggleCollapse('supply-intercept-content')">Правила перехвата поставок</h3>
+            <div class="collapsible-content" id="supply-intercept-content">
+                <div class="rule-content">
+                    <p><a href="https://forum.majestic-rp.ru/threads/pravila-perekhvata-postavok.123972/">Тык*</a></p>
+                    <p>1. Поставка - любое передвижение матовозки, в т.ч. транспортировка / разгрузка / загрузка материалов / созданных предметов из данных материалов, а так же закупаемых предметов, с целью их дальнейшей реализации, переработки и/или продажи.</p>
+
+                    <p>
+2. Минимальное количество участников со стороны гос. фракций - 8 человек. | Demorgan 45 минут / Устный выговор лидерам.
+Примечание: включая SANG.</p>
+                    <p>3. 1.2. Максимальное количество участников со стороны гос. фракций - 40 человек. | Demorgan 45 минут / Устный выговор лидерам.
+Примечание: включая SANG.
+Исключение: окончательное кол-во участников со стороны государственных структур определяется ГА сервера.</p>
+                    <p>4. 3. Запрещено вызывать подкрепление во время нападения на поставку. | Demorgan 60 минут / Устный выговор лидерам. </p>
+                    <p>Исключение: повторное нападение на поставку.</p>
+                    <p>Примечание: вмешательство третьей стороны в ходе одной перестрелки считается повторным нападением. </p>
+                </div>
+            </div>
+
+            <h3 onclick="toggleCollapse('interopll')">Правила захвата цехов / дилеров</h3>
+            <div class="collapsible-content" id="interopll">
+                <div class="rule-content">
+                    <p><a href="https://forum.majestic-rp.ru/threads/pravila-zakhvata-tsekhov-dilerov.1823529/">Тык*</a></p>
+                    <p>2. На мероприятиях действуют все правила сервера.
+Исключение: DM (разрешено убийство лишь причастных к мероприятию), PG, nonRP drive для матовозки, NLR.</p>
+                    <p>3. Запрещено DB. | Ban 3-10 дней / HardBan 7-30 дней.</p>
+                    <p>5. На территории мероприятия запрещена высадка на любые здания, строения, объекты на летной техники. | Demorgan 100 минут.
+Исключение: конец мероприятия. </p>
+                    <p>4. Запрещено использование анимаций. | Demorgan 35-90 минут / WARN.
+Исключение: функциональное использование "ползать", "присесть".</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="useful-links">
+            <h2>Полезные ссылки</h2>
+            
+            <div class="useful-links">
+                <div class="link-card">
+                    <h4>Официальный форум</h4>
+                    <p>Форум проекта Majestic RP с актуальными новостями, обсуждениями и правилами</p>
+                    <a href="https://forum.majestic-rp.ru/" target="_blank">Перейти</a>
+                </div>
+                
+                <div class="link-card">
+                    <h4>FIB Перевод.</h4>
+                    <p>Форма для перевода в другие фракции.</p>
+                    <p>Отслеживать вашу заявку в канале #перевод</p>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeisQ3BkrVLxSrH1N4ZwPH-pdyoQ-91jLjCSTlLxXRtpDCpWw/viewform?usp=dialog" target="_blank">Заполнить</a>
+                </div>
+                
+                <div class="link-card">
+                    <h4>Discord сервер FIB Рапорт на Увал.</h4>
+                    <p>Официальный Discord сервер фракции FIB для того, чтобы написать Рапорт на Увал.</p>
+                    <p>Отслеживать вашу заявку в канале #рапорт-на-увольнение.</p>
+                    <a href="https://discord.com/channels/1382607727507017739/1382607728702394375/1383931400226340905" target="_blank">Заполнить</a>
+                </div>
+                
+                <div class="link-card">
+                    <h4>FIB Запрос спецухи.</h4>
+                    <p>Запрос дефиков/дронов в FIB</p>
+                    <p>Отслеживать вашу заявку в канале #запрос-спец-вооружения.</p>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdBNDrUJKbXqoA-pzm_y2DbFMrpTDih5aiXZDjxFx_3zI7WFw/viewform?usp=dialog" target="_blank">Подробнее</a>
+                </div>
+                
+                <div class="link-card">
+                    <h4>Запрос на Отпуск</h4>
+                    <p>Запрос на АФК</p>
+                    <a href="https://discord.com/channels/1382607727507017739/1383499354806947940" target="_blank">Заполнить</a>
+                </div>
+
+                <div class="link-card">
+                    <h4>Зарос на восстановление</h4>
+                    <p>Отслеживать ваш запрос на восстановление в канале #восстановление</p>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSffiZ1Qp1ZGVC_A2HhPibPSKnm7WuJTQ-FRScRDXeMl1UNi9Q/viewform" target="_blank">Заполнить</a>
+                </div>
+            </div>
+        </section>
+       
+        <section id="faq">
+            <h2>Частые вопросы</h2>
+            
+            <h3 onclick="toggleCollapse('promotion-content')">Как повышаться?</h3>
+            <div class="collapsible-content" id="promotion-content">
+                <div class="faq-item">
+                    <p>В Discord сервере есть канал #система-повышений, где подробно описаны все требования для каждого звания.</p>
+                    <p>Для повышения нужно набрать количество баллов и закинуть отчет в канал #отчет-на-повышение.</p>
+                    <p>для примера возмем отдел HRT</p>
+                    <img src="https://i.ibb.co/PZgck0T3/Discord-k-A7-Msf-Nwjc.png" alt="123">
+                    <p>Как только набрали нужное количество баллов, вам нужно написать отчёт в канал #отчёт-на-повышение. Для этого используйте сервис, где можно опубликовать свои фотографии пример : <a href="https://imgbb.com/">IBB*</a>.</p>
+                    <img src="https://i.ibb.co/hxyqbBts/firefox-m-CUq-Gjdqy-E.png" alt="123">
+                    <img src="https://i.ibb.co/YTPHYwnv/Crosshair-X-4c8-Wh-Qw-KYy.png" alt="123">
+                    <img src="https://i.ibb.co/Kj1V9yGb/firefox-db-MXcd5h-N1.png" alt="123">
+                    <p>Теперь нужно написать отчёт в канал #отчёт-на-повышение.</p>
+                    <img src="https://i.ibb.co/fVDjBxy3/Discord-dj-Jze1-ZDj9.png" alt="123">
+                    <img src=" https://i.ibb.co/7tRFyKSL/firefox-Jq-FWCE80zy.png" alt="123">
+                    <p>Заливаем отчет и радуемя жизни</p>
+                    
+                    
+                </div>
+            </div>
+
+            <h3 onclick="toggleCollapse('report-rejected-content')">Что делать если отклонили отчет?</h3>
+            <div class="collapsible-content" id="report-rejected-content">
+                <div class="faq-item">
+                    <p>1. Имя/Фамилия/Статик либо не указан, либо указан неверно.</p>
+                    <p>2. Если вы повышаетесь за баллы из канала #благодарность, вы должны предоставить подтверждение того, что действительно были на мероприятии.</p>                   
+                </div>
+            </div>
+
+            <h3 onclick="toggleCollapse('cid-content')">Как попасть в отдел CID?</h3>
+            <div class="collapsible-content" id="cid-content">
+                <div class="faq-item">
+                    <p>Заявки в отдел CID работают, но приходят в другой Discord для секретности.</p>
+                    <p>Примечание: Не нужно писать в личные сообщения куратору или другим хайранам с просьбой рассмотреть вашу заявку — наберитесь терпения.</p>                
+                </div>
+            </div>
+
+            <h3 onclick="toggleCollapse('fa-content')">Как попасть в отдел FA?</h3>
+            <div class="collapsible-content" id="fa-content">
+                <div class="faq-item">
+                    <p>Нужно знать правила ПОЙП и правила терактов, вот ссылка <a href="https://forum.majestic-rp.ru/threads/pravila-ograblenii-i-pokhishchenii.8254/">Тык*</a> (Если кто-то ещё не понял — заявку тоже обязательно нужно оставить.)</p>
+                    <p>Примечание: Не нужно писать в личные сообщения куратору или другим хайранам с просьбой рассмотреть вашу заявку — наберитесь терпения.</p>                           
+                </div>
+            </div>
+
+            <h3 onclick="toggleCollapse('points-content')">Будут ли Баллы?</h3>
+            <div class="collapsible-content" id="points-content">
+                <div class="faq-item">
+                    <p>Да, после каждого сбора будут выписаны баллы, и их количество зависит только от вас.</p>
+                    <p>Примечание: Не нужно писать в личные сообщения хайранам с просьбой рассмотреть вашу заявку или дать баллы.</p>                           
+                </div>
+            </div>
+
+            <h3 onclick="toggleCollapse('special-content')">Когда выдадут спецуху?</h3>
+            <div class="collapsible-content" id="special-content">
+                <div class="faq-item">
+                    <p>После того как вам одобрят заявку, storekeeper всех тегнет, когда будет выдача.</p>
+                    <p>Примечание: После того как вы получите спецуху, оставьте отчет здесь: <a href="https://discord.com/channels/1382607727507017739/1382607729142530111">Тык*</a>.</p>                           
+                </div>
+            </div>
+
+            <h3 onclick="toggleCollapse('warehouse-content')">Почему склад с 6-7 ранга?</h3>
+            <div class="collapsible-content" id="warehouse-content">
+                <div class="faq-item">
+                    <p>Людей много, и не всегда есть возможность прокормить всех.</p>                       
+                </div>
+            </div>
+            <h3 onclick="toggleCollapse('warehouse-content1')">Почему Дефибриллятор с 7 ранга?</h3>
+            <div class="collapsible-content" id="warehouse-content1">
+                <div class="faq-item">
+                    <p>Людей много, и не всегда есть возможность дать все всем и приоритет одается тому кто находится во фракций более продолжительное время.</p>                       
+                </div>
+            </div>
+            <h3 onclick="toggleCollapse('warehouse-content11')">Почему отказали в выдаче дрона?</h3>
+            <div class="collapsible-content" id="warehouse-content11">
+                <div class="faq-item">
+                    <p>Дрон – ценный ресурс, который нужен для узконаправленных задач. Приоритет отдаётся сначала нашим агентам из CID и DEA.</p>                       
+                </div>
+            </div>
+        </section>
+       <div id="video-guide" style="display: flex; justify-content: center; align-items: center; margin: 2rem 0;">
+           <div style="background: var(--gray); border: 2px solid var(--accent); border-radius: 12px; box-shadow: 0 8px 32px 0 var(--shadow); padding: 2rem; max-width: 700px; width: 100%;">
+               <div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius: 8px; box-shadow: 0 4px 16px var(--shadow);">
+                   <iframe src="https://www.youtube.com/embed/dnrI5XNu6dE"
+                           frameborder="0"
+                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                           allowfullscreen
+                        style="position:absolute; top:0; left:0; width:100%; height:100%; border-radius: 8px;"></iframe>
+              </div>
+              <div style="text-align:center; margin-top: 1rem; color: var(--text-light); font-size: 1.1rem;">Видеогайд</div>
+           </div>
+       </div>
+    </div>
+    
+    <div id="fullscreen-container" class="uk-fullscreen" style="display: none;">
+        <div class="uk-fullscreen-header">
+            <h3>Уголовный кодекс - Полноэкранный режим</h3>
+            <button class="uk-fullscreen-close" id="fullscreen-close">Закрыть (Esc)</button>
+        </div>
+        <iframe class="uk-fullscreen-iframe" src="https://docs.google.com/spreadsheets/d/1HrPv_uVavBCcfQKVmA7F56NeymB2qlxBzUmLAEfNwQ/edit?gid=1714153627#gid=1714153627"></iframe>
+    </div>
+    
+    <footer>
+        <p>Done by <a class="Red" href="https://discord.gg/yb2e3BHrcD">Majestic Empire</a> To Majestic RP Phoenix/FIB</p>
+        <p>Контакты: Discord: colepatkins</p>
+        <p>Никакие права не защищены. Несанкционированное копирование материалов разрешено.</p>
+    </footer>
+
+    <script>
+        function toggleCollapse(id) {
+            const content = document.getElementById(id);
+            const header = content.previousElementSibling;
+            
+            event.preventDefault();
+            event.stopPropagation();
+            
+            content.classList.toggle('active');
+            header.classList.toggle('active');
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const fullscreenBtn = document.getElementById('fullscreen-btn');
+            const fullscreenClose = document.getElementById('fullscreen-close');
+            const fullscreenContainer = document.getElementById('fullscreen-container');
+            
+            fullscreenBtn.addEventListener('click', function() {
+                fullscreenContainer.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            });
+            
+            fullscreenClose.addEventListener('click', function() {
+                fullscreenContainer.style.display = 'none';
+                document.body.style.overflow = '';
+            });
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && fullscreenContainer.style.display === 'flex') {
+                    fullscreenContainer.style.display = 'none';
+                    document.body.style.overflow = '';
+                }
+            });
+            
+            document.querySelectorAll('.notch-nav-links a').forEach(anchor => { // Обновлен селектор
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        const headerOffset = 80; // Изменено на 80px для новой навигации
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                        
+                        if (history.pushState) {
+                            history.pushState(null, null, targetId);
+                        } else {
+                            location.hash = targetId;
+                        }
+                    } 
+                });
+            });
+        });
+
+        const ADMIN_PASSWORD = 'admin123'; 
+        let isAdmin = false;
+
+
+        function checkAdminStatus() {
+            isAdmin = localStorage.getItem('isAdmin') === 'true';
+            updateUI();
+        }
+
+        function updateUI() {
+            const adminPanel = document.getElementById('adminPanel');
+            const adminLogin = document.getElementById('adminLogin');
+            
+            if (isAdmin) {
+                if (adminPanel) adminPanel.style.display = 'block';
+                if (adminLogin) adminLogin.style.display = 'none';
+            } else {
+                if (adminPanel) adminPanel.style.display = 'none';
+                if (adminLogin) adminLogin.style.display = 'block';
+            }
+        }
+
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const password = document.getElementById('adminPassword').value;           
+            if (password === ADMIN_PASSWORD) {
+                isAdmin = true;
+                localStorage.setItem('isAdmin', 'true');
+                updateUI();
+            } else {
+                alert('Неверный пароль');
+            }
+        });
+
+
+        document.getElementById('postForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('postTitle').value;
+            const description = document.getElementById('postDescription').value;
+            const imageFile = document.getElementById('postImage').files[0];
+            
+            if (!isAdmin) {
+                alert('Требуются права администратора');
+                return;
+            }
+
+
+            const post = {
+                id: Date.now(),
+                title,
+                description,
+                image: imageFile ? URL.createObjectURL(imageFile) : null,
+                date: new Date().toLocaleDateString('ru-RU', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                })
+            };
+
+            const posts = JSON.parse(localStorage.getItem('posts') || '[]');
+            posts.push(post);
+            localStorage.setItem('posts', JSON.stringify(posts));
+
+            this.reset();
+
+
+            displayPosts();
+        });
+
+
+        function displayPosts() {
+            const postsList = document.getElementById('postsList');
+            const posts = JSON.parse(localStorage.getItem('posts') || '[]');
+            
+            if (postsList) { // Проверка на существование элемента
+                postsList.innerHTML = posts.map(post => `
+                    <div class="post-card">
+                        <h4>${post.title}</h4>
+                        <p>${post.description}</p>
+                        ${post.image ? `<img src="${post.image}" alt="Изображение поста">` : ''}
+                        <p class="post-date">Дата публикации: ${post.date}</p>
+                        ${isAdmin ? `
+                            <div class="post-actions">
+                                <button class="delete-btn" onclick="deletePost(${post.id})">Удалить</button>
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+            }
+        }
+
+        function deletePost(id) {
+            if (!isAdmin) {
+                alert('Требуются права администратора');
+                return;
+            }
+
+            if (confirm('Вы уверены, что хотите удалить это постановление?')) {
+                const posts = JSON.parse(localStorage.getItem('posts') || '[]');
+                const updatedPosts = posts.filter(post => post.id !== id);
+                localStorage.setItem('posts', JSON.stringify(updatedPosts));
+                displayPosts();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAdminStatus();
+            displayPosts();
+        });
+
+        function logout() {
+            isAdmin = false;
+            localStorage.removeItem('isAdmin');
+            updateUI();
+            displayPosts(); 
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.addEventListener('load', function() {
+                    this.classList.add('loaded');
+                });
+            });
+
+            setTimeout(() => {
+                const loadingElement = document.querySelector('.loading');
+                if (loadingElement) { // Проверка на существование элемента
+                    loadingElement.style.display = 'none';
+                }
+            }, 1500);
+        });
+
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const logos = document.querySelectorAll('.fib-icon'); // Обновлен селектор
+            let rotationTimeout;
+
+            logos.forEach(logo => {
+                logo.addEventListener('mouseenter', function() {
+                    clearTimeout(rotationTimeout);
+                    this.style.animation = 'fibIconRotate 3s linear infinite'; // Изменено имя анимации
+                });
+
+                logo.addEventListener('mouseleave', function() {
+                    const currentRotation = getComputedStyle(this).transform;
+                    const matrix = new DOMMatrix(currentRotation);
+                    const angle = Math.round(Math.atan2(matrix.m21, matrix.m11) * (180/Math.PI));
+                    
+                    this.style.animation = 'none';
+                    this.style.transform = `rotate(${angle}deg)`;
+                    
+                    rotationTimeout = setTimeout(() => {
+                        this.style.transform = 'rotate(0deg)';
+                    }, 500);
+                });
+            });
+        });
+
+        document.getElementById('uk-table-content').addEventListener('click', function() {
+            toggleCollapse('uk-table-content');
+        });
+
+        document.getElementById('promotion-content').addEventListener('click', function() {
+            toggleCollapse('promotion-content');
+        });
+
+        document.getElementById('report-rejected-content').addEventListener('click', function() {
+            toggleCollapse('report-rejected-content');
+        });
+
+        document.getElementById('cid-content').addEventListener('click', function() {
+            toggleCollapse('cid-content');
+        });
+
+        document.getElementById('fa-content').addEventListener('click', function() {
+            toggleCollapse('fa-content');
+        });
+
+        document.getElementById('points-content').addEventListener('click', function() {
+            toggleCollapse('points-content');
+        });
+
+        document.getElementById('special-content').addEventListener('click', function() {
+            toggleCollapse('special-content');
+        });
+
+        document.getElementById('warehouse-content').addEventListener('click', function() {
+            toggleCollapse('warehouse-content');
+        });
+
+        document.getElementById('guilt-forms-content').addEventListener('click', function() {
+            toggleCollapse('guilt-forms-content');
+        });
+
+        document.getElementById('investigation-actions-content').addEventListener('click', function() { // Обновлен ID
+            toggleCollapse('investigation-actions-content');
+        });
+
+        document.getElementById('lawyer-crime-content').addEventListener('click', function() {
+            toggleCollapse('lawyer-crime-content');
+        });
+
+        document.getElementById('air-drop-content').addEventListener('click', function() { // Обновлен ID
+            toggleCollapse('air-drop-content');
+        });
+
+        document.getElementById('supply-intercept-content').addEventListener('click', function() { // Обновлен ID
+            toggleCollapse('supply-intercept-content');
+        });
+
+        document.getElementById('interopll').addEventListener('click', function() { // Обновлен ID
+            toggleCollapse('interopll');
+        });
+
+        document.getElementById('warehouse-content1').addEventListener('click', function() {
+            toggleCollapse('warehouse-content1');
+        });
+
+        document.getElementById('warehouse-content11').addEventListener('click', function() {
+            toggleCollapse('warehouse-content11');
+        });
+
+        document.getElementById('categories-content').addEventListener('click', function() { // Обновлен ID
+            toggleCollapse('categories-content');
+        });
+
+        document.getElementById('regime-content').addEventListener('click', function() { // Обновлен ID
+            toggleCollapse('regime-content');
+        });
+        document.getElementById('responsibility-content').addEventListener('click', function() { // Обновлен ID
+            toggleCollapse('responsibility-content');
+        });
+        document.getElementById('responsibility-content1').addEventListener('click', function() { // Обновлен ID
+            toggleCollapse('responsibility-content1');
+        });
+        document.getElementById('authority-content').addEventListener('click', function() { // Обновлен ID
+            toggleCollapse('authority-content');
+        });
+        document.getElementById('authority-content2').addEventListener('click', function() { // Обновлен ID
+            toggleCollapse('authority-content2');
+        });
+
+        const notchMenuBtn = document.getElementById('notchMenuBtn');
+        const notchNavLinks = document.getElementById('notchNavLinks');
+
+        if (notchMenuBtn && notchNavLinks) {
+            notchMenuBtn.addEventListener('click', () => {
+                notchNavLinks.classList.toggle('open');
+                notchMenuBtn.classList.toggle('active');
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!notchNavLinks.contains(e.target) && !notchMenuBtn.contains(e.target) && notchNavLinks.classList.contains('open')) {
+                    notchNavLinks.classList.remove('open');
+                    notchMenuBtn.classList.remove('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
